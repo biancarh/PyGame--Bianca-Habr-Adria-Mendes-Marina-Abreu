@@ -10,6 +10,11 @@ FNT_DIR = path.join(path.dirname(__file__), 'assets', 'font')
 WIDTH = 1200 # Largura da tela
 HEIGHT = 800 # Altura da tela
 FPS = 60 # Frames por segundo
+PLAYER_WIDTH=50
+PLAYER_HEIGHT=50
+GRAVITY=5
+TILE_SIZE = 40 # Tamanho de cada tile (cada tile é um quadrado)
+JUMP_SIZE= TILE_SIZE
 
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)

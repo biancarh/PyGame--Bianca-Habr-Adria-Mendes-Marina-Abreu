@@ -1,20 +1,26 @@
 # ===== Inicialização =====
-# ----- Importa e inicia pacotes
+
+#Importo e inicio pacotes
 import pygame
 import random
-from config import WIDTH, HEIGHT, INIT, F1, F2, F3, QUIT
 from fase1_screen import fase1_screen
 # from fase2_screen import fase2_screen
 # from fase3_screen import fase3_screen
 
+#Parâmetros necessários (também importei)
+from config import *
+
+#Para organizar a lógica, é aqui que acontece tudo dos outros arquivos
+
+#Início do jogo
 pygame.init()
 pygame.mixer.init()
 
-# ----- Gera tela principal
+#Gerando tela principal + título
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Corrida espacial')
 
-
+#Loop das fases
 state = F1
 while state != QUIT:
     # if state == INIT:
@@ -27,5 +33,6 @@ while state != QUIT:
         state = fase3_screen(window)
     else:
         state = QUIT
-# ===== Finalização =====
+
+#Finalização (Ver se precisa fazer aquilo de clicar no exit para quit)
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados

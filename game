@@ -254,6 +254,7 @@ def game_screen(screen):
     # Adiciona o jogador no grupo de sprites por último para ser desenhado por cima das plataformas
     all_sprites.add(player)
 
+#LOOP PRINCIPAL
     PLAYING = 0
     DONE = 1
 
