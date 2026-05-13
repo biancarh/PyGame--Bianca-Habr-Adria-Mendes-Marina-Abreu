@@ -1,5 +1,6 @@
 from os import path
 
+#MUDAR
 # Estabelece a pasta que contem as figuras e sons.
 IMG_DIR = path.join(path.dirname(__file__), 'assets', 'img')
 SND_DIR = path.join(path.dirname(__file__), 'assets', 'snd')
@@ -15,7 +16,7 @@ PLAYER_HEIGHT=50
 GRAVITY=5
 TILE_SIZE = 40 # Tamanho de cada tile (cada tile é um quadrado)
 JUMP_SIZE= TILE_SIZE
-
+SPEED_X=5
 # Define algumas variáveis com as cores básicas
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)

@@ -28,9 +28,11 @@ while state != QUIT:
     if state == F1:
         state = fase1_screen(window)
     elif state == F2:
-        state = fase2_screen(window)
+        # state = fase2_screen(window)
+        pass
     elif state == F3:
-        state = fase3_screen(window)
+        # state = fase3_screen(window)
+        pass
     else:
         state = QUIT
 

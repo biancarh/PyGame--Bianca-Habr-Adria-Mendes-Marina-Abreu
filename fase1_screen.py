@@ -11,7 +11,7 @@ def fase1_screen(window):
     clock = pygame.time.Clock()
 
     # Define os tipos de tiles
-    PLAT = 1
+    PLATF = 1
     EMPTY = -1
 
     # Define o mapa com os tipos de tiles
@@ -25,56 +25,29 @@ def fase1_screen(window):
 
     #Tenho que tranformar em variáveis
     MAP = [
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","GOAL","GOAL","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["START","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY","EMPTY"],
-
-    ["PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","EMPTY","EMPTY","EMPTY"],
-
-    ["PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT"],
-
-    ["PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT","PLAT"]
-
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, EMPTY, EMPTY, EMPTY],
+        [PLATF, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, PLATF, EMPTY, EMPTY, EMPTY, EMPTY, PLATF],
+        [EMPTY, EMPTY, PLATF, EMPTY, PLATF, PLATF, PLATF, PLATF, EMPTY, PLATF, PLATF, PLATF],
+        [PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF],
+        [PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF, PLATF],
     ]
-#Copiei de exemplos pygame (jump_platform.py)
+    #Copiei de exemplos pygame (jump_platform.py)
 
     #Imagens
     img_dir = path.join(path.dirname(__file__), 'img')
-    SUN_IMG = 'player_img'
-    MOON_IMG = 'player_img'
-    STAR_IMG = 'player_img'
-    METEOR_IMG = 'player_img'
+    SUN_IMG = 'sun_img'
+    MOON_IMG = 'moon_img'
+   
     #Ainda temos que ajustar os nomes nas funções
 
 
@@ -84,17 +57,22 @@ def fase1_screen(window):
     FALLING = 2
 
     # Class que representa os blocos do cenário
-    class Plat(pygame.sprite.Sprite):
+    class Tile(pygame.sprite.Sprite):
 
         # Construtor da classe.
         def __init__(self, tile_img, row, column):
             # Construtor da classe pai (Sprite).
             pygame.sprite.Sprite.__init__(self)
 
+            # Aumenta o tamanho do tile.
+            tile_img = pygame.transform.scale(tile_img, (TILE_SIZE, TILE_SIZE))
+
+            # Define a imagem do tile.
+            self.image = tile_img
             # Detalhes sobre o posicionamento.
             self.rect = self.image.get_rect()
 
-            # Posiciona o tile ****Acredito que não tem
+            # Posiciona o tile
             self.rect.x = TILE_SIZE * column
             self.rect.y = TILE_SIZE * row
 
@@ -103,7 +81,7 @@ def fase1_screen(window):
     class Sun(pygame.sprite.Sprite):
 
         # Construtor da classe.
-        def __init__(self, player_img, row, column, platforms, blocks):
+        def __init__(self, player_img, row, column, blocks):
 
             # Construtor da classe pai (Sprite).
             pygame.sprite.Sprite.__init__(self)
@@ -113,15 +91,14 @@ def fase1_screen(window):
             self.state = STILL
 
             # Ajusta o tamanho da imagem
-            player_img = pygame.transform.scale(player_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
+            sun_img = pygame.transform.scale(player_img, (PLAYER_WIDTH, PLAYER_HEIGHT))
 
             # Define a imagem do sprite. Nesse exemplo vamos usar uma imagem estática (não teremos animação durante o pulo)
-            self.image = player_img
+            self.image = sun_img
             # Detalhes sobre o posicionamento.
             self.rect = self.image.get_rect()
 
             # Guarda os grupos de sprites para tratar as colisões #########??##########
-            self.platforms = platforms
             self.blocks = blocks
 
             # Posiciona o personagem #########??########## (Não temos tamanhos fixos para a plataforma)
@@ -175,25 +152,6 @@ def fase1_screen(window):
                     # Atualiza o estado para parado
                     self.state = STILL
 
-            # Tratamento especial para plataformas
-            # Plataformas devem ser transponíveis quando o personagem está pulando
-            # mas devem pará-lo quando ele está caindo. Para pará-lo é necessário que
-            # o jogador tenha passado daquela altura durante o último pulo.
-            if self.speedy > 0:  # Está indo para baixo
-                collisions = pygame.sprite.spritecollide(self, self.platforms, False)
-                # Para cada tile de plataforma que colidiu com o personagem
-                # verifica se ele estava aproximadamente na parte de cima
-                for platform in collisions:
-                    # Verifica se a altura alcançada durante o pulo está acima da
-                    # plataforma.
-                    if self.highest_y <= platform.rect.top:
-                        self.rect.bottom = platform.rect.top
-                        # Atualiza a altura no mapa
-                        self.highest_y = self.rect.bottom
-                        # Para de cair
-                        self.speedy = 0
-                        # Atualiza o estado para parado
-                        self.state = STILL
 
             # Tenta andar em x
             self.rect.x += self.speedx
@@ -225,7 +183,7 @@ def fase1_screen(window):
     class Moon(pygame.sprite.Sprite):
 
         # Construtor da classe.
-        def __init__(self, player_img, row, column, platforms, blocks):
+        def __init__(self, player_img, row, column, blocks):
 
             # Construtor da classe pai (Sprite).
             pygame.sprite.Sprite.__init__(self)
@@ -243,7 +201,6 @@ def fase1_screen(window):
             self.rect = self.image.get_rect()
 
             # Guarda os grupos de sprites para tratar as colisões
-            self.platforms = platforms
             self.blocks = blocks
 
             # Posiciona o personagem
@@ -297,26 +254,7 @@ def fase1_screen(window):
                     # Atualiza o estado para parado
                     self.state = STILL
 
-            # Tratamento especial para plataformas
-            # Plataformas devem ser transponíveis quando o personagem está pulando
-            # mas devem pará-lo quando ele está caindo. Para pará-lo é necessário que
-            # o jogador tenha passado daquela altura durante o último pulo.
-            if self.speedy > 0:  # Está indo para baixo
-                collisions = pygame.sprite.spritecollide(self, self.platforms, False)
-                # Para cada tile de plataforma que colidiu com o personagem
-                # verifica se ele estava aproximadamente na parte de cima
-                for platform in collisions:
-                    # Verifica se a altura alcançada durante o pulo está acima da
-                    # plataforma.
-                    if self.highest_y <= platform.rect.top:
-                        self.rect.bottom = platform.rect.top
-                        # Atualiza a altura no mapa
-                        self.highest_y = self.rect.bottom
-                        # Para de cair
-                        self.speedy = 0
-                        # Atualiza o estado para parado
-                        self.state = STILL
-
+            
             # Tenta andar em x
             self.rect.x += self.speedx
             # Corrige a posição caso tenha passado do tamanho da janela
@@ -347,47 +285,47 @@ def fase1_screen(window):
     # Carrega todos os assets de uma vez.
     def load_assets(img_dir):
         assets = {}
-        assets[PLAYER_IMG] = pygame.image.load(path.join(img_dir, 'hero-single.png')).convert_alpha()
-        assets[BLOCK] = pygame.image.load(path.join(img_dir, 'tile-block.png')).convert()
-        assets[PLATF] = pygame.image.load(path.join(img_dir, 'tile-wood.png')).convert()
+        assets[SUN_IMG] = pygame.image.load(path.join(img_dir, 'hero-single.png')).convert_alpha()
+        assets[MOON_IMG] = pygame.image.load(path.join(img_dir, 'hero-single.png')).convert_alpha()
+        #tenho que fazer do sol, da lua e da plat
+        assets[PLATF] = pygame.image.load(path.join(img_dir, 'tile-block.png')).convert()
         return assets
 
 
-    def game_screen(screen):
-        # Variável para o ajuste de velocidade
-        clock = pygame.time.Clock()
 
-        # Carrega assets
-        assets = load_assets(img_dir)
+    # Variável para o ajuste de velocidade
+    clock = pygame.time.Clock()
 
-        # Cria um grupo de todos os sprites.
-        all_sprites = pygame.sprite.Group()
-        # Cria um grupo somente com os sprites de plataforma.
-        # Sprites de plataforma são aqueles que permitem que o jogador passe quando
-        # estiver pulando, mas pare quando estiver caindo.
-        platforms = pygame.sprite.Group()
-        # Cria um grupo somente com os sprites de bloco.
-        # Sprites de block são aqueles que impedem o movimento do jogador, independente
-        # de onde ele está vindo
-        blocks = pygame.sprite.Group()
+    # Carrega assets
+    assets = load_assets(img_dir)
 
-        # Cria Sprite do jogador
-        player = Player(assets[PLAYER_IMG], 12, 2, platforms, blocks)
+    # Cria um grupo de todos os sprites.
+    all_sprites = pygame.sprite.Group()
+    # Cria um grupo somente com os sprites de plataforma.
+    # Sprites de plataforma são aqueles que permitem que o jogador passe quando
+    # estiver pulando, mas pare quando estiver caindo.
+    platforms = pygame.sprite.Group()
+    # Cria um grupo somente com os sprites de bloco.
+    # Sprites de block são aqueles que impedem o movimento do jogador, independente
+    # de onde ele está vindo
 
-        # Cria tiles de acordo com o mapa
-        for row in range(len(MAP)):
-            for column in range(len(MAP[row])):
-                tile_type = MAP[row][column]
-                if tile_type != EMPTY:
-                    tile = Tile(assets[tile_type], row, column)
-                    all_sprites.add(tile)
-                    if tile_type == BLOCK:
-                        blocks.add(tile)
-                    elif tile_type == PLATF:
-                        platforms.add(tile)
+    # Cria Sprite do jogador
+    player_sun = Sun(assets[SUN_IMG], 12, 5, platforms) #Sol
+    player_moon = Moon(assets[MOON_IMG], 12, 2, platforms) #Lua
 
-        # Adiciona o jogador no grupo de sprites por último para ser desenhado por cima das plataformas
-        all_sprites.add(player)
+    # Cria tiles de acordo com o mapa
+    for row in range(len(MAP)):
+        for column in range(len(MAP[row])):
+            tile_type = MAP[row][column]
+            if tile_type != EMPTY:
+                tile = Tile(assets[tile_type], row, column)
+                all_sprites.add(tile)
+                if tile_type == PLATF:
+                    platforms.add(tile)
+
+    # Adiciona o jogador no grupo de sprites por último para ser desenhado por cima das plataformas
+    all_sprites.add(player_sun)
+    all_sprites.add(player_moon)
 
     DONE = 0
     PLAYING = 1
@@ -402,16 +340,44 @@ def fase1_screen(window):
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 state = DONE
+            # Verifica se apertou alguma tecla.
+            if event.type == pygame.KEYDOWN:
+                # Dependendo da tecla, altera o estado do jogador.
+                if event.key == pygame.K_LEFT:
+                    player_sun.speedx -= SPEED_X
+                elif event.key == pygame.K_RIGHT:
+                    player_sun.speedx += SPEED_X
+                elif event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                    player_sun.jump()
+                elif event.key == pygame.K_w:
+                    player_moon.jump()
+
+            # Verifica se soltou alguma tecla.
+            if event.type == pygame.KEYUP:
+                # Dependendo da tecla, altera o estado do jogador.
+                if event.key == pygame.K_LEFT:
+                    player_sun.speedx += SPEED_X
+                elif event.key == pygame.K_RIGHT:
+                    player_sun.speedx -= SPEED_X
+
+        # Depois de processar os eventos.
+        # Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
+        all_sprites.update()
+
+        # A cada loop, redesenha o fundo e os sprites
+        window.fill(BLACK)
+        all_sprites.draw(window)
+
+        # Depois de desenhar tudo, inverte o display.
+        pygame.display.flip()
 
         # ----- Gera saídas
-        window.fill(BLACK)  # Preenche com a cor branca
-
-
-        tela_texto = assets['font_media'].render("Tela com o seu jogo", True, WHITE)
-        text_rect = tela_texto.get_rect()
-        text_rect.centerx = WIDTH / 2
-        text_rect.centery = 200
-        window.blit(tela_texto, text_rect)
+        
+        # tela_texto = assets['font_media'].render("Tela com o seu jogo", True, WHITE)
+        # text_rect = tela_texto.get_rect()
+        # text_rect.centerx = WIDTH / 2
+        # text_rect.centery = 200
+        # window.blit(tela_texto, text_rect)
 
         pygame.display.update()  # Mostra o novo frame para o jogador
 
