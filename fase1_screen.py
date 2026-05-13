@@ -351,6 +351,10 @@ def fase1_screen(window):
                     player_sun.jump()
                 elif event.key == pygame.K_w:
                     player_moon.jump()
+                elif event.key == pygame.K_a:
+                    player_moon.speedx -= SPEED_X
+                elif event.key == pygame.K_d:
+                    player_moon.speedx += SPEED_X
 
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:

@@ -8,8 +8,8 @@ FNT_DIR = path.join(path.dirname(__file__), 'assets', 'font')
 #temos que fazer ainda. Não entendi
 
 # Dados gerais do jogo.
-WIDTH = 1200 # Largura da tela
-HEIGHT = 800 # Altura da tela
+WIDTH = 1100 # Largura da tela
+HEIGHT = 700 # Altura da tela
 FPS = 60 # Frames por segundo
 PLAYER_WIDTH=50
 PLAYER_HEIGHT=50
