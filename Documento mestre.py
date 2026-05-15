@@ -17,7 +17,7 @@ pygame.init()
 pygame.mixer.init()
 
 #Gerando tela principal + título
-window = pygame.display.set_mode((WIDTH, HEIGHT))
+window = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN | pygame.SCALED)
 pygame.display.set_caption('Corrida espacial')
 
 #Loop das fases

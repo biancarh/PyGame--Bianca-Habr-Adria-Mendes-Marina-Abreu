@@ -14,7 +14,7 @@ FPS = 60 # Frames por segundo
 PLAYER_WIDTH=50
 PLAYER_HEIGHT=50
 GRAVITY=5
-TILE_SIZE = 40 # Tamanho de cada tile (cada tile é um quadrado)
+TILE_SIZE = 50 # Tamanho de cada tile (cada tile é um quadrado)
 JUMP_SIZE= TILE_SIZE
 SPEED_X=5
 # Define algumas variáveis com as cores básicas

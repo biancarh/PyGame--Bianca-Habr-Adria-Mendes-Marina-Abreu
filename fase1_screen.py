@@ -1,5 +1,3 @@
-#ESTAMOS COM DUVIDA DE ONDE O ARQUIVO DA IMAGEM ESTÁ
-
 #Importo o que é necessário para a função
 import pygame
 from config import *
@@ -47,6 +45,8 @@ def fase1_screen(window):
     img_dir = path.join(path.dirname(__file__), 'img')
     SUN_IMG = 'sun_img'
     MOON_IMG = 'moon_img'
+    background = pygame.image.load('img/fundo_1100x700.png').convert()
+    background = pygame.transform.scale(background, (WIDTH, HEIGHT))
    
     #Ainda temos que ajustar os nomes nas funções
 
@@ -206,7 +206,7 @@ def fase1_screen(window):
             # Posiciona o personagem
             # row é o índice da linha embaixo do personagem
             self.rect.x = column * TILE_SIZE
-            self.rect.bottom = row * TILE_SIZE
+            self.rect.bottom = row * TILE_SIZE 
 
             # Inicializa velocidades
             self.speedx = 0
@@ -285,10 +285,10 @@ def fase1_screen(window):
     # Carrega todos os assets de uma vez.
     def load_assets(img_dir):
         assets = {}
-        assets[SUN_IMG] = pygame.image.load(path.join(img_dir, 'hero-single.png')).convert_alpha()
-        assets[MOON_IMG] = pygame.image.load(path.join(img_dir, 'hero-single.png')).convert_alpha()
+        assets[SUN_IMG] = pygame.image.load(path.join(img_dir, 'sol.png')).convert_alpha()
+        assets[MOON_IMG] = pygame.image.load(path.join(img_dir, 'lua.png')).convert_alpha()
         #tenho que fazer do sol, da lua e da plat
-        assets[PLATF] = pygame.image.load(path.join(img_dir, 'tile-block.png')).convert()
+        assets[PLATF] = pygame.image.load(path.join(img_dir, 'Bloco.png')).convert()
         return assets
 
 
@@ -355,6 +355,8 @@ def fase1_screen(window):
                     player_moon.speedx -= SPEED_X
                 elif event.key == pygame.K_d:
                     player_moon.speedx += SPEED_X
+                elif event.key == pygame.K_ESCAPE:
+                    state = DONE
 
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
@@ -363,13 +365,20 @@ def fase1_screen(window):
                     player_sun.speedx += SPEED_X
                 elif event.key == pygame.K_RIGHT:
                     player_sun.speedx -= SPEED_X
+            # Verifica se soltou alguma tecla.
+            if event.type == pygame.KEYUP:
+                # Dependendo da tecla, altera o estado do jogador.
+                if event.key == pygame.K_a:
+                    player_moon.speedx += SPEED_X
+                elif event.key == pygame.K_d:
+                    player_moon.speedx -= SPEED_X
 
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
         all_sprites.update()
 
         # A cada loop, redesenha o fundo e os sprites
-        window.fill(BLACK)
+        window.blit(background, (0, 0))
         all_sprites.draw(window)
 
         # Depois de desenhar tudo, inverte o display.
