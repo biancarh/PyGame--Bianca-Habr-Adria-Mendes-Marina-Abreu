@@ -1,6 +1,7 @@
 #Importo o que é necessário para a função
 import pygame
 from config import *
+import random
 
 # from assets import load_assets
 
@@ -295,6 +296,80 @@ def fase1_screen(window):
                 self.speedy -= JUMP_SIZE
                 self.state = JUMPING
 
+    class Meteor(pygame.sprite.Sprite):
+        def __init__(self, assets):
+            # Construtor da classe mãe (Sprite).
+            pygame.sprite.Sprite.__init__(self)
+
+            self.image = assets['meteor_img']
+            self.mask = pygame.mask.from_surface(self.image)
+            self.rect = self.image.get_rect()
+            self.rect.x = random.randint(0, WIDTH-METEOR_WIDTH)
+            self.rect.y = random.randint(-100, -METEOR_HEIGHT)
+            self.speedx = random.randint(-3, 3)
+            self.speedy = random.randint(2, 9)
+
+        def update(self):
+            # Atualizando a posição do meteoro
+            self.rect.x += self.speedx
+            self.rect.y += self.speedy
+            # Se o meteoro passar do final da tela, volta para cima e sorteia
+            # novas posições e velocidades
+            if self.rect.top > HEIGHT or self.rect.right < 0 or self.rect.left > WIDTH:
+                self.rect.x = random.randint(0, WIDTH-METEOR_WIDTH)
+                self.rect.y = random.randint(-100, -METEOR_HEIGHT)
+                self.speedx = random.randint(-3, 3)
+                self.speedy = random.randint(2, 9)  
+    
+    # Classe que representa uma explosão de meteoro
+    class Explosion(pygame.sprite.Sprite):
+        # Construtor da classe.
+        def __init__(self, center, assets):
+            # Construtor da classe mãe (Sprite).
+            pygame.sprite.Sprite.__init__(self)
+
+            # Armazena a animação de explosão
+            self.explosion_anim = assets['explosion_anim']
+
+            # Inicia o processo de animação colocando a primeira imagem na tela.
+            self.frame = 0  # Armazena o índice atual na animação
+            self.image = self.explosion_anim[self.frame]  # Pega a primeira imagem
+            self.rect = self.image.get_rect()
+            self.rect.center = center  # Posiciona o centro da imagem
+
+            # Guarda o tick da primeira imagem, ou seja, o momento em que a imagem foi mostrada
+            self.last_update = pygame.time.get_ticks()
+
+            # Controle de ticks de animação: troca de imagem a cada self.frame_ticks milissegundos.
+            # Quando pygame.time.get_ticks() - self.last_update > self.frame_ticks a
+            # próxima imagem da animação será mostrada
+            self.frame_ticks = 50
+
+        def update(self):
+            # Verifica o tick atual.
+            now = pygame.time.get_ticks()
+            # Verifica quantos ticks se passaram desde a ultima mudança de frame.
+            elapsed_ticks = now - self.last_update
+
+            # Se já está na hora de mudar de imagem...
+            if elapsed_ticks > self.frame_ticks:
+                # Marca o tick da nova imagem.
+                self.last_update = now
+
+                # Avança um quadro.
+                self.frame += 1
+
+                # Verifica se já chegou no final da animação.
+                if self.frame == len(self.explosion_anim):
+                    # Se sim, tchau explosão!
+                    self.kill()
+                else:
+                    # Se ainda não chegou ao fim da explosão, troca de imagem.
+                    center = self.rect.center
+                    self.image = self.explosion_anim[self.frame]
+                    self.rect = self.image.get_rect()
+                    self.rect.center = center
+        
 
     # Carrega todos os assets de uma vez.
     def load_assets(img_dir):
@@ -303,6 +378,16 @@ def fase1_screen(window):
         assets[MOON_IMG] = pygame.image.load(path.join(img_dir, 'lua.png')).convert_alpha()
         #tenho que fazer do sol, da lua e da plat
         assets[PLATF] = pygame.image.load(path.join(img_dir, 'Bloco.png')).convert()
+        assets['meteor_img'] = pygame.image.load(path.join(img_dir, "meteor_img.png")).convert_alpha()
+        assets['meteor_img'] = pygame.transform.scale(assets['meteor_img'], (METEOR_WIDTH, METEOR_HEIGHT))
+        explosion_anim = []
+        for i in range(9):
+            # Os arquivos de animação são numerados de 00 a 08
+            filename = (path.join(img_dir, 'regularExplosion0{}.png'.format(i)))
+            img = pygame.image.load(filename).convert()
+            img = pygame.transform.scale(img, (32, 32))
+            explosion_anim.append(img)
+        assets["explosion_anim"] = explosion_anim
         return assets
 
 
@@ -315,10 +400,22 @@ def fase1_screen(window):
 
     # Cria um grupo de todos os sprites.
     all_sprites = pygame.sprite.Group()
+    all_meteors = pygame.sprite.Group()
+    groups = {}
+    groups['all_sprites'] = all_sprites
+    groups['all_meteors'] = all_meteors
+    
     # Cria um grupo somente com os sprites de plataforma.
     # Sprites de plataforma são aqueles que permitem que o jogador passe quando
     # estiver pulando, mas pare quando estiver caindo.
     platforms = pygame.sprite.Group()
+
+    # Criando os meteoros
+    for i in range(3):
+        meteor = Meteor(assets)
+        all_sprites.add(meteor)
+        all_meteors.add(meteor)
+
     # Cria um grupo somente com os sprites de bloco.
     # Sprites de block são aqueles que impedem o movimento do jogador, independente
     # de onde ele está vindo
@@ -343,7 +440,15 @@ def fase1_screen(window):
 
     DONE = 0
     PLAYING = 1
+    EXPLODING_MOON = 2
+    EXPLODING_SUN = 3
+    TRANSITION = 4
     state = PLAYING
+
+    keys_down = {}
+    score = 0
+    lives_moon = 3
+    lives_sun = 3
 
     # ===== Loop principal =====
     while state != DONE:
@@ -390,6 +495,57 @@ def fase1_screen(window):
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite. O grupo chama o método update() de cada Sprite dentre dele.
         all_sprites.update()
+
+        if state == PLAYING:
+            # Verifica se houve colisão entre LUA e meteoro
+            hits = pygame.sprite.spritecollide(player_moon, all_meteors, True, pygame.sprite.collide_mask)
+            if len(hits) > 0:
+                # Toca o som da colisão
+                #assets['boom_sound'].play()
+                player_moon.kill()
+                lives_moon -= 1
+                explosao = Explosion(player_moon.rect.center, assets)
+                all_sprites.add(explosao)
+                state = EXPLODING_MOON
+                keys_down = {}
+                explosion_tick = pygame.time.get_ticks()
+                explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
+
+            # Verifica se houve colisão entre SOL e meteoro
+            hits = pygame.sprite.spritecollide(player_sun, all_meteors, True, pygame.sprite.collide_mask)
+            if len(hits) > 0:
+                # Toca o som da colisão
+                #assets['boom_sound'].play()
+                player_sun.kill()
+                lives_sun -= 1
+                explosao = Explosion(player_sun.rect.center, assets)
+                all_sprites.add(explosao)
+                state = EXPLODING_SUN
+                keys_down = {}
+                explosion_tick = pygame.time.get_ticks()
+                explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
+
+        elif state == EXPLODING_MOON:
+            now = pygame.time.get_ticks()
+            if now - explosion_tick > explosion_duration:
+                if lives_moon == 0:
+                    state = TRANSITION 
+                    #exibir imagem que sol ganhou 
+                else:
+                    state = PLAYING
+                    player_moon = Moon(assets[MOON_IMG], 11, 1, platforms) #Lua
+                    all_sprites.add(player_moon)
+        elif state == EXPLODING_SUN:
+            now = pygame.time.get_ticks()
+            if now - explosion_tick > explosion_duration:
+                if lives_sun == 0:
+                    state = TRANSITION 
+                    #exibir imagem que lua ganhou 
+                else:
+                    state = PLAYING
+                    player_sun = Sun(assets[SUN_IMG], 11, 0, platforms) #Sol
+                    all_sprites.add(player_sun)
+        
 
         # A cada loop, redesenha o fundo e os sprites
         window.blit(background, (0, 0))
