@@ -125,6 +125,9 @@ def fase1_screen(window):
             self.speedx = 0
             self.speedy = 0
 
+            self.init_column = column
+            self.init_row = row
+
             # Define altura no mapa
             # Essa variável sempre conterá a maior altura alcançada pelo jogador
             # antes de começar a cair
@@ -187,6 +190,14 @@ def fase1_screen(window):
                 elif self.speedx < 0:
                     self.rect.left = collision.rect.right
 
+        def reset_position_sun(self):
+            self.rect.x = self.init_column * TILE_SIZE
+            self.rect.bottom = self.init_row * TILE_SIZE 
+
+            # Inicializa velocidades
+            # self.speedx = 0
+            # self.speedy = 0
+
         # Método que faz o personagem pular
         def jump(self):
             # Só pode pular se ainda não estiver pulando ou caindo
@@ -217,6 +228,8 @@ def fase1_screen(window):
 
             # Guarda os grupos de sprites para tratar as colisões
             self.blocks = blocks
+            self.init_column = column
+            self.init_row = row
 
             # Posiciona o personagem
             # row é o índice da linha embaixo do personagem
@@ -231,6 +244,14 @@ def fase1_screen(window):
             # Essa variável sempre conterá a maior altura alcançada pelo jogador
             # antes de começar a cair
             self.highest_y = self.rect.bottom
+        
+        def reset_position_moon(self):
+            self.rect.x = self.init_column * TILE_SIZE
+            self.rect.bottom = self.init_row * TILE_SIZE 
+
+            # # Inicializa velocidades
+            # self.speedx = 0
+            # self.speedy = 0
 
         # Metodo que atualiza a posição do personagem
         def update(self):
@@ -411,7 +432,7 @@ def fase1_screen(window):
     platforms = pygame.sprite.Group()
 
     # Criando os meteoros
-    for i in range(3):
+    for i in range(5):
         meteor = Meteor(assets)
         all_sprites.add(meteor)
         all_meteors.add(meteor)
@@ -421,8 +442,8 @@ def fase1_screen(window):
     # de onde ele está vindo
 
     # Cria Sprite do jogador
-    player_sun = Sun(assets[SUN_IMG], 12, 0, platforms) #Sol
-    player_moon = Moon(assets[MOON_IMG], 12, 1, platforms) #Lua
+    player_sun = Sun(assets[SUN_IMG], 11, 0, platforms) #Sol
+    player_moon = Moon(assets[MOON_IMG], 11, 1, platforms) #Lua
 
     # Cria tiles de acordo com o mapa
     for row in range(len(MAP)):
@@ -497,8 +518,24 @@ def fase1_screen(window):
         all_sprites.update()
 
         if state == PLAYING:
+                
+            if player_moon.rect.y > HEIGHT and lives_moon > 1:
+                lives_moon -= 1
+                player_moon.reset_position_moon()
+
+            if player_sun.rect.y > HEIGHT and lives_sun > 1:
+                lives_sun -= 1
+                player_sun.reset_position_sun()
+
             # Verifica se houve colisão entre LUA e meteoro
             hits = pygame.sprite.spritecollide(player_moon, all_meteors, True, pygame.sprite.collide_mask)
+            for meteor in hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
+                # O meteoro e destruido e precisa ser recriado
+                #assets['destroy_sound'].play()
+                m = Meteor(assets)
+                all_sprites.add(m)
+                all_meteors.add(m)
+
             if len(hits) > 0:
                 # Toca o som da colisão
                 #assets['boom_sound'].play()
@@ -513,6 +550,13 @@ def fase1_screen(window):
 
             # Verifica se houve colisão entre SOL e meteoro
             hits = pygame.sprite.spritecollide(player_sun, all_meteors, True, pygame.sprite.collide_mask)
+            for meteor in hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
+                # O meteoro e destruido e precisa ser recriado
+                #assets['destroy_sound'].play()
+                m = Meteor(assets)
+                all_sprites.add(m)
+                all_meteors.add(m)
+
             if len(hits) > 0:
                 # Toca o som da colisão
                 #assets['boom_sound'].play()
