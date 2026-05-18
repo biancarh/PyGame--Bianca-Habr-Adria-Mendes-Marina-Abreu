@@ -409,6 +409,7 @@ def fase1_screen(window):
             img = pygame.transform.scale(img, (32, 32))
             explosion_anim.append(img)
         assets["explosion_anim"] = explosion_anim
+        assets["score_font"] = pygame.font.Font(path.join(img_dir, 'PressStart2P.ttf'), 28)
         return assets
 
 
@@ -519,11 +520,11 @@ def fase1_screen(window):
 
         if state == PLAYING:
                 
-            if player_moon.rect.y > HEIGHT and lives_moon > 1:
+            if player_moon.rect.y > HEIGHT and lives_moon > 0:
                 lives_moon -= 1
                 player_moon.reset_position_moon()
 
-            if player_sun.rect.y > HEIGHT and lives_sun > 1:
+            if player_sun.rect.y > HEIGHT and lives_sun > 0:
                 lives_sun -= 1
                 player_sun.reset_position_sun()
 
@@ -595,10 +596,24 @@ def fase1_screen(window):
         window.blit(background, (0, 0))
         all_sprites.draw(window)
 
+        # ----- Gera saídas
+
+        # Desenhando as vidas da lua
+        text_surface = assets['score_font'].render(chr(9829) * lives_moon, True, (200,200,200))
+        text_rect = text_surface.get_rect()
+        text_rect.bottomleft = (10, HEIGHT - 10)
+        window.blit(text_surface, text_rect)
+
+        # Desenhando as vidas do sol
+        text_surface = assets['score_font'].render(chr(9829) * lives_sun, True, (255, 255, 0))
+        text_rect = text_surface.get_rect()
+        text_rect.bottomright = (WIDTH - 10, HEIGHT - 10)
+        window.blit(text_surface, text_rect)   
+
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
+ 
 
-        # ----- Gera saídas
         
         # tela_texto = assets['font_media'].render("Tela com o seu jogo", True, WHITE)
         # text_rect = tela_texto.get_rect()
