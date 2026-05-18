@@ -390,6 +390,18 @@ def fase1_screen(window):
                     self.image = self.explosion_anim[self.frame]
                     self.rect = self.image.get_rect()
                     self.rect.center = center
+    
+    #Cria a classe da estrela
+    class Star(pygame.sprite.Sprite):
+        def __init__(self, star_img, row, column):
+            pygame.sprite.Sprite.__init__(self)
+
+            self.image = star_img
+            self.rect = self.image.get_rect()
+
+            # fica em cima da plataforma
+            self.rect.midbottom = (column * TILE_SIZE + TILE_SIZE // 2, row * TILE_SIZE)
+
         
 
     # Carrega todos os assets de uma vez.
@@ -410,6 +422,8 @@ def fase1_screen(window):
             explosion_anim.append(img)
         assets["explosion_anim"] = explosion_anim
         assets["score_font"] = pygame.font.Font(path.join(img_dir, 'PressStart2P.ttf'), 28)
+        assets['star_img'] = pygame.image.load(path.join(img_dir, 'star_img.png')).convert_alpha()
+        assets['star_img'] = pygame.transform.scale(assets['star_img'], (STAR_WIDTH, STAR_HEIGHT))
         return assets
 
 
@@ -423,9 +437,11 @@ def fase1_screen(window):
     # Cria um grupo de todos os sprites.
     all_sprites = pygame.sprite.Group()
     all_meteors = pygame.sprite.Group()
+    all_stars = pygame.sprite.Group()
     groups = {}
     groups['all_sprites'] = all_sprites
     groups['all_meteors'] = all_meteors
+    groups['all_stars'] = all_stars
     
     # Cria um grupo somente com os sprites de plataforma.
     # Sprites de plataforma são aqueles que permitem que o jogador passe quando
@@ -456,6 +472,12 @@ def fase1_screen(window):
                 if tile_type == PLATF:
                     platforms.add(tile)
 
+                    # chance de colocar estrela em cima da plataforma
+                    if random.random() < 0.25:
+                        star = Star(assets['star_img'], row, column)
+                        all_sprites.add(star)
+                        all_stars.add(star)
+
     # Adiciona o jogador no grupo de sprites por último para ser desenhado por cima das plataformas
     all_sprites.add(player_sun)
     all_sprites.add(player_moon)
@@ -468,7 +490,8 @@ def fase1_screen(window):
     state = PLAYING
 
     keys_down = {}
-    score = 0
+    score_moon = 0
+    score_sun = 0
     lives_moon = 3
     lives_sun = 3
 
@@ -548,15 +571,27 @@ def fase1_screen(window):
                 keys_down = {}
                 explosion_tick = pygame.time.get_ticks()
                 explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
+            
+            #Verifica se o jogador LUA pegou a estrela
+            hits = pygame.sprite.spritecollide(player_moon, all_stars, True)
+            for star in hits:
+                score_moon += 1
+                #assets['star_sound'].play()
 
             # Verifica se houve colisão entre SOL e meteoro
-            hits = pygame.sprite.spritecollide(player_sun, all_meteors, True, pygame.sprite.collide_mask)
-            for meteor in hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
+            moon_hits = pygame.sprite.spritecollide(player_sun, all_meteors, True, pygame.sprite.collide_mask)
+            for meteor in moon_hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
                 # O meteoro e destruido e precisa ser recriado
                 #assets['destroy_sound'].play()
                 m = Meteor(assets)
                 all_sprites.add(m)
                 all_meteors.add(m)
+            
+            #Verifica se o jogador SOL pegou a estrela
+            star_hits = pygame.sprite.spritecollide(player_sun, all_stars, True)
+            for star in star_hits:
+                score_sun += 1
+                #assets['star_sound'].play()
 
             if len(hits) > 0:
                 # Toca o som da colisão
@@ -608,7 +643,19 @@ def fase1_screen(window):
         text_surface = assets['score_font'].render(chr(9829) * lives_sun, True, (255, 255, 0))
         text_rect = text_surface.get_rect()
         text_rect.bottomright = (WIDTH - 10, HEIGHT - 10)
-        window.blit(text_surface, text_rect)   
+        window.blit(text_surface, text_rect)  
+
+        # Desenhando a pontuação da lua
+        text_surface = assets['score_font'].render("LUA: " + str(score_moon), True, (200,200,200))
+        text_rect = text_surface.get_rect()
+        text_rect.topleft = (10, 10)
+        window.blit(text_surface, text_rect)
+
+        # Desenhando a pontuação do sol
+        text_surface = assets['score_font'].render("SOL: " + str(score_sun), True, (255, 255, 0))
+        text_rect = text_surface.get_rect()
+        text_rect.topright = (WIDTH - 10, 10)
+        window.blit(text_surface, text_rect) 
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()

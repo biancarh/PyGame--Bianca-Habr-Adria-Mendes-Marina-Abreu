@@ -17,6 +17,8 @@ GRAVITY=5
 TILE_SIZE = 50 # Tamanho de cada tile (cada tile é um quadrado)
 METEOR_WIDTH = 50
 METEOR_HEIGHT = 50
+STAR_WIDTH = 30
+STAR_HEIGHT = 30
 JUMP_SIZE= TILE_SIZE
 SPEED_X=5
 # Define algumas variáveis com as cores básicas
