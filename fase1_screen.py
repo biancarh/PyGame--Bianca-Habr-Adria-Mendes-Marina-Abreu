@@ -573,14 +573,14 @@ def fase1_screen(window):
                 explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
             
             #Verifica se o jogador LUA pegou a estrela
-            hits = pygame.sprite.spritecollide(player_moon, all_stars, True)
-            for star in hits:
+            moon_hits = pygame.sprite.spritecollide(player_moon, all_stars, True)
+            for star in moon_hits:
                 score_moon += 1
                 #assets['star_sound'].play()
 
             # Verifica se houve colisão entre SOL e meteoro
-            moon_hits = pygame.sprite.spritecollide(player_sun, all_meteors, True, pygame.sprite.collide_mask)
-            for meteor in moon_hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
+            hits = pygame.sprite.spritecollide(player_sun, all_meteors, True, pygame.sprite.collide_mask)
+            for meteor in hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
                 # O meteoro e destruido e precisa ser recriado
                 #assets['destroy_sound'].play()
                 m = Meteor(assets)
