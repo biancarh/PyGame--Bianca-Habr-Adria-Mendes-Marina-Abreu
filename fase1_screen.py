@@ -62,6 +62,7 @@ def fase1_screen(window):
     MOON_IMG = 'moon_img'
     background = pygame.image.load('img/fundo_1100x700.png').convert()
     background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+
    
     #Ainda temos que ajustar os nomes nas funções
 
@@ -402,6 +403,15 @@ def fase1_screen(window):
             # fica em cima da plataforma
             self.rect.midbottom = (column * TILE_SIZE + TILE_SIZE // 2, row * TILE_SIZE)
 
+    class Door(pygame.sprite.Sprite):
+        def __init__(self, door_img, row, column):
+            pygame.sprite.Sprite.__init__(self)
+
+            self.image = door_img
+            self.rect = self.image.get_rect()
+
+            # fica em cima da plataforma
+            self.rect.midbottom = (column * TILE_SIZE + TILE_SIZE // 2, row * TILE_SIZE)
         
 
     # Carrega todos os assets de uma vez.
@@ -424,6 +434,8 @@ def fase1_screen(window):
         assets["score_font"] = pygame.font.Font(path.join(img_dir, 'PressStart2P.ttf'), 28)
         assets['star_img'] = pygame.image.load(path.join(img_dir, 'star_img.png')).convert_alpha()
         assets['star_img'] = pygame.transform.scale(assets['star_img'], (STAR_WIDTH, STAR_HEIGHT))
+        assets['door_img'] = pygame.image.load(path.join(img_dir, 'porta.png')).convert_alpha()
+        assets['door_img'] = pygame.transform.scale(assets['door_img'], (DOOR_WIDTH, DOOR_HEIGHT))
         return assets
 
 
@@ -438,10 +450,12 @@ def fase1_screen(window):
     all_sprites = pygame.sprite.Group()
     all_meteors = pygame.sprite.Group()
     all_stars = pygame.sprite.Group()
+    all_door = pygame.sprite.Group()
     groups = {}
     groups['all_sprites'] = all_sprites
     groups['all_meteors'] = all_meteors
     groups['all_stars'] = all_stars
+    groups['all_door'] = all_door
     
     # Cria um grupo somente com os sprites de plataforma.
     # Sprites de plataforma são aqueles que permitem que o jogador passe quando
@@ -462,7 +476,10 @@ def fase1_screen(window):
     player_sun = Sun(assets[SUN_IMG], 11, 0, platforms) #Sol
     player_moon = Moon(assets[MOON_IMG], 11, 1, platforms) #Lua
 
+
+
     # Cria tiles de acordo com o mapa
+    
     for row in range(len(MAP)):
         for column in range(len(MAP[row])):
             tile_type = MAP[row][column]
@@ -472,15 +489,24 @@ def fase1_screen(window):
                 if tile_type == PLATF:
                     platforms.add(tile)
 
+
                     # chance de colocar estrela em cima da plataforma
                     if random.random() < 0.25:
                         star = Star(assets['star_img'], row, column)
                         all_sprites.add(star)
                         all_stars.add(star)
 
+
+
     # Adiciona o jogador no grupo de sprites por último para ser desenhado por cima das plataformas
     all_sprites.add(player_sun)
     all_sprites.add(player_moon)
+
+
+    door= Door(assets["door_img"],5,20)
+
+    all_sprites.add(door)
+    all_door.add(door)
 
     DONE = 0
     PLAYING = 1
