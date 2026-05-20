@@ -34,7 +34,7 @@ def fase1_sun_screen(window):
         window.fill((0,0,0))
         text_surface = assets['score_font'].render("Sol ganhou", True, (200,200,200))
         text_rect = text_surface.get_rect()
-        text_rect.bottomleft = (10, HEIGHT - 10)
+        text_rect = (50, 70)
         window.blit(text_surface, text_rect)
         pygame.display.update()
 
