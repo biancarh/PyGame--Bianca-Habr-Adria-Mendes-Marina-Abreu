@@ -37,5 +37,6 @@ INIT = 0
 GAME = 1
 QUIT = 2
 F1= 3
+F1SUN = 6
 F2= 4
 F3= 5

@@ -521,6 +521,9 @@ def fase1_screen(window):
     lives_moon = 3
     lives_sun = 3
 
+    SUN_WIN= False
+    MOON_WIN= False
+    EMPATE = False
     # ===== Loop principal =====
     while state != DONE:
         clock.tick(FPS)
@@ -630,6 +633,32 @@ def fase1_screen(window):
                 keys_down = {}
                 explosion_tick = pygame.time.get_ticks()
                 explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
+
+            #Verifica se a Lua tocou na porta
+            moon_hits_door = pygame.sprite.spritecollide(player_moon, all_door, True)
+            for door in moon_hits_door:
+                score_moon += 3
+                #assets['star_sound'].play()
+                if score_sun>score_moon:
+                    SUN_WIN= True
+                elif score_moon==score_sun:
+                    EMPATE= True
+                else:
+                    MOON_WIN= True
+            #Verifica se o Sol tocou na porta
+            sun_hits_door = pygame.sprite.spritecollide(player_sun, all_door, True)
+            for door in sun_hits_door:
+                score_sun += 3
+                #assets['star_sound'].play()
+                if score_sun>score_moon:
+                    SUN_WIN= True
+                    return F1SUN
+                elif score_moon==score_sun:
+                    EMPATE= True
+                    return F1SUN
+                else:
+                    MOON_WIN= True
+                    return F1SUN
 
         elif state == EXPLODING_MOON:
             now = pygame.time.get_ticks()

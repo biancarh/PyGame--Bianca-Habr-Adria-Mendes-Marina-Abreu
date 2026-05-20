@@ -4,6 +4,7 @@
 import pygame
 import random
 from fase1_screen import fase1_screen
+from fase1_sun import fase1_sun_screen
 # from fase2_screen import fase2_screen
 # from fase3_screen import fase3_screen
 
@@ -23,10 +24,13 @@ pygame.display.set_caption('Corrida espacial')
 #Loop das fases
 state = F1
 while state != QUIT:
+    print("State: ", state)
     # if state == INIT:
     #     state = init_screen(window)
     if state == F1:
         state = fase1_screen(window)
+    elif state == F1SUN:
+        state = fase1_sun_screen(window)
     elif state == F2:
         # state = fase2_screen(window)
         pass
